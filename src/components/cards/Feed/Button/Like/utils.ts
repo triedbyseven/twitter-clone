@@ -33,7 +33,7 @@ export const httpPostIncrementCountRequest = (): Promise<SuccessResponse> => {
 export const httpPostDecrementCountRequest = (): Promise<SuccessResponse> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      const failure = true;
+      const failure = false;
 
       if (failure) reject({ error: { message: 'Request failed, sorry. ❌' } });
 
