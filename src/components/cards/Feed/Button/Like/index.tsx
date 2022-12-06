@@ -10,7 +10,7 @@ const Like: React.FC<LikeProps> = (): React.ReactElement | null => {
 
   useEffect(() => {
     componentDidMountHandler();
-  }, []);
+  }, [componentDidMountHandler]);
 
   if ( !state.counter ) return null;
 

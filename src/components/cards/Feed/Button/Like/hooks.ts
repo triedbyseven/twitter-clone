@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { LikeState, UseLikeHook } from './interface';
 import { httpGetCountRequest, httpPostDecrementCountRequest, httpPostIncrementCountRequest } from './utils';
 
@@ -18,7 +18,6 @@ const useLikeHook = (): UseLikeHook => {
 
     try {
       const response = !state.isLiked ? await httpPostIncrementCountRequest() : await httpPostDecrementCountRequest();
-      console.log('Response successful: ', response);
     } catch (error) {
       console.error('Error has been detected. Reverting state.. ', error);
       setState(prevState => ({
@@ -28,11 +27,11 @@ const useLikeHook = (): UseLikeHook => {
     };
   };
 
-  const componentDidMountHandler = async (): Promise<void> => {
+  const componentDidMountHandler = useCallback(async () => {
     const response = await httpGetCountRequest();
-    
+
     setState({ counter: response.data.likeCounter, isLiked: false });
-  };
+  }, []);
 
   return {
     state: state,

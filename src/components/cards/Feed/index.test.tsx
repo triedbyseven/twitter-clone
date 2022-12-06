@@ -1,27 +1,32 @@
 import { render, screen } from '@testing-library/react';
 import sum from './sum';
 import Feed from '.';
+import tweets from '../../../data/tweets';
+import { BrowserRouter } from 'react-router-dom';
 
-test('adds 1 + 4 to equal 5', () => {
-  const result: number = sum(1, 4);
+// todo
+describe('first test group', () => {
+  test('adds 1 + 2 = 3', () => {
+    const result: number = sum(1, 2);
 
-  expect(result).toBe(5);
-});
+    expect(result).toBe(3);
+  });
 
-test('renders list of nodes without crashing', () => {
-  render(<Feed />);
+  test('renders list of nodes without crashing', () => {
+    render(<Feed tweet={tweets[0]} />, { wrapper: BrowserRouter });
 
-  const customNode = screen.getByTestId('custom-element');
+    const customNode = screen.getByTestId('custom-element');
 
-  expect(customNode).toBeTruthy();
-});
+    expect(customNode).toBeTruthy();
+  });
 
-test('renders a list of four nodes', () => {
-  render(<Feed />);
+  test('renders a list of four nodes', () => {
+    render(<Feed tweet={tweets[0]} />, { wrapper: BrowserRouter });
 
-  const customNode = screen.getByTestId('custom-element');
+    const customNode = screen.getByTestId('custom-element');
 
-  const nodeListLength = customNode.children.length;
+    const nodeListLength = customNode.children[0].children.length;
 
-  expect(nodeListLength).toBe(4);
-});
+    expect(nodeListLength).toBe(4);
+  });
+})
