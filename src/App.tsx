@@ -7,7 +7,9 @@ import Providers from './contexts';
 const App = (): React.ReactElement => {
   const HomeScreenElement: React.ReactElement = (
     <Providers.ReplyOverlay>
-        <Screens.Home />
+        <Providers.Tweets>
+          <Screens.Home />
+      </Providers.Tweets> 
     </Providers.ReplyOverlay> 
   )
 

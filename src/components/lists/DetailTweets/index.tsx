@@ -9,7 +9,7 @@ const DetailTweets: React.FC<DetailTweetsProps> = (props): React.ReactElement | 
   const { state } = useContext(TweetsContext);
 
   const renderItems = (): React.ReactElement[] => {
-    const items = state.tweets[0].replies.map((item, index: number): React.ReactElement => {
+    const items = props.items.map((item, index: number): React.ReactElement => {
       return (
         <div key={index} className='tweet'>
           <Layout.Row>
