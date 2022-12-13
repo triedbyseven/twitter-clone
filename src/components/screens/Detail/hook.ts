@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { TweetsContext } from '../../../contexts/Tweets';
 import { getTweetById } from '../../../utils/api';
 import { DetailState, RouterParams, UseDetailScreenHookResponse } from './interfaces';
 
 const useDetailScreenHook = (): UseDetailScreenHookResponse => {
+  const { state: globalState } = useContext(TweetsContext);
   const params = useParams<RouterParams>();
   const [state, setState] = useState<DetailState>({
     tweet: {
@@ -18,7 +20,7 @@ const useDetailScreenHook = (): UseDetailScreenHookResponse => {
 
   const onMount = async (): Promise<void> => {
     try {
-      const tweet = await getTweetById(params.id);
+      const tweet = await getTweetById(params.id, globalState.tweets);
 
       setState({
         tweet: tweet,

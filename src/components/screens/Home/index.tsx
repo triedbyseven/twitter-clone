@@ -20,15 +20,13 @@ const Home: React.FC<HomeScreenProps> = (props): React.ReactElement => {
   };
 
   return (
-    <Providers.ReplyOverlay>
-      <div data-testid='home-screen' className="App">
-        {/* Overlays */}
-        <Overlays.Reply />
-        <Containers.Home>
-          {!state.loading ? <div data-testid='tweets'>{renderItems()}</div> : 'Loading tweets...' }
-        </Containers.Home>
-      </div>
-    </Providers.ReplyOverlay>
+    <div data-testid='home-screen' className="App">
+      {/* Overlays */}
+      <Overlays.Reply />
+      <Containers.Home>
+        {!state.loading ? <div data-testid='tweets'>{renderItems()}</div> : 'Loading tweets...' }
+      </Containers.Home>
+    </div>
   );
 };
 

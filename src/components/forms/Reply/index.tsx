@@ -4,6 +4,7 @@ import { TweetsContext } from '../../../contexts/Tweets';
 import { Tweet } from '../../../data/tweets';
 import Buttons from '../../buttons';
 import Layout from '../../layout';
+import { v4 as uuid } from 'uuid';
 import { ReplyFormProps, ReplyFormState } from './interfaces';
 import './styles.css';
 
@@ -24,27 +25,16 @@ const Reply: React.FC<ReplyFormProps> = (props): React.ReactElement => {
     const foundTweet = tweetState.tweets.find((tweet) => tweet.id === replyOverlayState.tweetID);
 
     foundTweet?.replies.push({
-      id: '03',
+      id: uuid(),
       author: 'triedbyseven',
-      tweet: 'Hello world!'
+      tweet: state.value
     });
 
     console.log('foundTweet', foundTweet);
+    console.log('tweets', [...tweetState.tweets, foundTweet]);
 
     dispatch({ type: 'UPDATE_TWEETS', payload: [...tweetState.tweets, foundTweet] });
-
-    // const tweet: Tweet = {
-    //   id: '04',
-    //   author: 'Andrew',
-    //   tweet: 'I am cool',
-    //   likes: 0,
-    // replies: [],
-    // };
-
-    // const copyState = [...globalState.tweets];
-    // const nextState = [...copyState, tweet];
-
-    // dispatch({type: 'UPDATE_TWEETS', payload: nextState});
+    replyOverlayDispatch({ type: 'TOGGLE', payload: { tweetID: foundTweet?.id } })
   };
 
   return (

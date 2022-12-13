@@ -2,18 +2,33 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Screens from './components/screens';
+import Providers from './contexts';
 
 const App = (): React.ReactElement => {
+  const HomeScreenElement: React.ReactElement = (
+    <Providers.ReplyOverlay>
+        <Screens.Home />
+    </Providers.ReplyOverlay> 
+  )
+
+  const DetailScreenElement: React.ReactElement = (
+    <Providers.ReplyOverlay>
+      <Providers.Tweets>
+        <Screens.Detail />
+      </Providers.Tweets>
+    </Providers.ReplyOverlay> 
+  );
+
   return (
     <Router>
       <Routes>
         <Route 
           path='/home'
-          element={<Screens.Home />} 
+          element={HomeScreenElement} 
         />
         <Route
           path='/home/detail/:id'
-          element={<Screens.Detail />}
+          element={DetailScreenElement}
         />
       </Routes>
     </Router>
