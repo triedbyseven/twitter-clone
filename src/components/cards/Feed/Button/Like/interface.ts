@@ -10,6 +10,6 @@ export interface LikeState {
 
 export interface UseLikeHook {
   state: LikeState;
-  onClickHandler: () => void;
+  onClickHandler: (event: React.MouseEvent<HTMLElement>) => void;
   componentDidMountHandler: () => Promise<void>;
 };

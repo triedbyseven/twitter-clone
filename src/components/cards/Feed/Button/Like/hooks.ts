@@ -8,7 +8,9 @@ const useLikeHook = (): UseLikeHook => {
     isLiked: false
   });
 
-  const onClickHandler = async (): Promise<void> => {
+  const onClickHandler = async (event: React.MouseEvent<HTMLElement>): Promise<void> => {
+    event.preventDefault();
+
     const countering = (isLiked: boolean, counter: number): number => !isLiked ? counter + 1 : counter - 1;
 
     setState(prevState => ({
