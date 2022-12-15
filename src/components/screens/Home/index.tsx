@@ -2,18 +2,20 @@ import React from 'react';
 import Containers from '../../containers';
 import Cards from '../../cards';
 import Overlays from '../../overlays';
-import Providers from '../../../contexts';
 import { HomeScreenProps } from './interfaces';
 import { Tweet } from '../../../data/tweets';
 import useHomeScreenHook from './hook';
+import Animations from '../../animations';
 
 const Home: React.FC<HomeScreenProps> = (props): React.ReactElement => {
   const { state } = useHomeScreenHook();
 
   const renderItems = (): React.ReactElement[] => {
-    const items = state.tweets.map((tweet: Tweet) => {
+    const items = state.tweets.map((tweet: Tweet, index: number) => {
       return (
-        <Cards.Feed key={tweet.id} tweet={tweet} />
+        <Animations.FadeInFromTop index={index}>
+          <Cards.Feed key={tweet.id} tweet={tweet} />
+        </Animations.FadeInFromTop>
       );
     });
     return items;
