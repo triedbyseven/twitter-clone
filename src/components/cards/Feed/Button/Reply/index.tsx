@@ -9,7 +9,10 @@ const Reply: React.FC<ReplyProps> = (props): React.ReactElement => {
 
   const onClickHandler = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    context.dispatch({ type: 'TOGGLE', payload: props.tweetID });
+    context.dispatch({ type: 'TOGGLE', payload: {
+      tweetID: props.tweetID,
+      tweetPreview: props.tweetPreview
+    } });
   };
 
   return (

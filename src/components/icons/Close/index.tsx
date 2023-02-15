@@ -1,7 +1,7 @@
 import React from "react";
 import { CloseProps } from "./interface";
 
-const Close: React.FC<CloseProps> = () => {
+const Close: React.FC<CloseProps> = (props): React.ReactElement => {
   return (
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
@@ -9,7 +9,8 @@ const Close: React.FC<CloseProps> = () => {
       viewBox="0 0 24 24" 
       strokeWidth={1.5} 
       stroke="currentColor" 
-      className="w-6 h-6"
+      width={props.size ? props.size : 24}
+      height={props.size ? props.size : 24}
     >
       <path 
         strokeLinecap="round" 

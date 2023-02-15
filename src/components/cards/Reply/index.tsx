@@ -10,7 +10,7 @@ const Reply: React.FC<ReplyCardProps> = (): React.ReactElement => {
   const { dispatch } = useContext(ReplyOverlayContext);
 
   const onClickHandler = () => {
-    dispatch({ type: 'TOGGLE' });
+    dispatch({ type: 'TOGGLE', payload: { tweetID: '', tweetPreview: '' } });
   };
 
   return (
@@ -32,7 +32,7 @@ const Reply: React.FC<ReplyCardProps> = (): React.ReactElement => {
         </Layout.Column>
         <Layout.Column>
           <Forms.Reply />
-        </Layout.Column>
+        </Layout.Column>  
       </Layout.Row>
     </div>
   );
