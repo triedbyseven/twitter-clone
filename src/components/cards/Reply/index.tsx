@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { ReplyOverlayContext } from '../../../contexts/ReplyOverlay';
+import { GiphyOverlayContext, GiphyOverlayActionType } from '../../../contexts/GiphyOverlay';
 import Forms from '../../forms';
 import Icons from '../../icons';
 import Layout from '../../layout';
@@ -8,9 +9,11 @@ import './styles.css';
 
 const Reply: React.FC<ReplyCardProps> = (): React.ReactElement => {
   const { dispatch } = useContext(ReplyOverlayContext);
+  const giphyOverlayContext = useContext(GiphyOverlayContext);
 
   const onClickHandler = () => {
     dispatch({ type: 'TOGGLE', payload: { tweetID: '', tweetPreview: '' } });
+    giphyOverlayContext.dispatch({ type: GiphyOverlayActionType.TOGGLE_RESET });
   };
 
   return (
