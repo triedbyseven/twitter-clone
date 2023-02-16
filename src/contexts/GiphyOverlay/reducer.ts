@@ -1,9 +1,5 @@
 import { ActionType, GiphyOverlayProviderState } from '.';
 
-/**
- * @changes - Line 21 - Toggling isToggled to true or false using !
- */
-
 export const initialState: GiphyOverlayProviderState = {
   isToggled: false,
   gif: ''

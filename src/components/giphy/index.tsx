@@ -2,8 +2,7 @@ import { Grid } from '@giphy/react-components';
 import { GiphyFetch } from '@giphy/js-fetch-api';
 import { SyntheticEvent, useContext } from 'react';
 import { IGif } from '@giphy/js-types';
-// import { GiphyOverlayActionType, GiphyOverlayContext } from '../../contexts/GiphyOverlay';
-import {  GiphyOverlayContext } from '../../contexts/GiphyOverlay';
+import { GiphyOverlayActionType, GiphyOverlayContext } from '../../contexts/GiphyOverlay';
 import './styles.css';
 
 // use @giphy/js-fetch-api to fetch gifs, instantiate with your api key
@@ -21,9 +20,8 @@ const GiphyGrid: React.FC = (): React.ReactElement => {
 
     const gifURL: string = gif.images.original.url;
 
-    // dispatch({ type: GiphyOverlayActionType.UPDATE_GIF, payload: gifURL });
-    // dispatch({ type: GiphyOverlayActionType.TOGGLE });
-    dispatch({ type: 'TOGGLE' });
+    dispatch({ type: GiphyOverlayActionType.UPDATE_GIF, payload: gifURL });
+    dispatch({ type: GiphyOverlayActionType.TOGGLE });
   };
 
   return (

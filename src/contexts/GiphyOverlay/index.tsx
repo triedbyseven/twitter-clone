@@ -11,8 +11,7 @@ export type GiphyOverlayProviderState = {
 };
 
 export type ActionType = {
-  type: any;
-  // type: GiphyOverlayActionType;
+  type: GiphyOverlayActionType;
   payload?: any;
 };
 
