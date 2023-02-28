@@ -9,9 +9,13 @@ import './styles.css';
 const DetailTweets: React.FC<DetailTweetsProps> = (props): React.ReactElement | null => {
   const { state } = useContext(TweetsContext);
 
-  console.log('whoa:', props);
-
   const renderPreview = (mediaType: string, mediaURL: string): React.ReactElement | null => {
+    if (mediaType === 'image/gif') return (
+      <div className='image-preview'>
+        <img src={mediaURL} style={{ width: '100%' }} />
+      </div>
+    );
+
     if (mediaType === 'image/jpeg') return (
       <div className='image-preview'>
         <img src={mediaURL} style={{ width: '100%' }} />

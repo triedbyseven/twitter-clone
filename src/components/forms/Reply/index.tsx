@@ -99,13 +99,16 @@ const Reply: React.FC<ReplyFormProps> = (props): React.ReactElement => {
 
   const onSubmitHandler = (): void => {
     const foundTweet = tweetState.tweets.find((tweet) => tweet.id === replyOverlayState.tweetID);
+    let mediaType: string = '';
+    if (state.file) mediaType = state.file.type;
+    if (giphyOverlayContext.state.gif) mediaType = 'image/gif';
 
     foundTweet?.replies.push({
       id: uuid(),
       author: 'triedbyseven',
       tweet: state.value,
-      mediaURL: state.previewUrl,
-      mediaType: state.file?.type || ''
+      mediaURL: state.previewUrl || giphyOverlayContext.state.gif,
+      mediaType: mediaType
     });
 
     dispatch({ type: 'UPDATE_TWEETS', payload: [ ...tweetState.tweets ] });
@@ -147,6 +150,7 @@ const Reply: React.FC<ReplyFormProps> = (props): React.ReactElement => {
             { state.previewUrl || giphyOverlayContext.state.gif  ? renderPreview() : null }
             <Footer 
               ref={imageFileRef}
+              tweet={state.value}
               onChangeFileHandler={onChangeFileHandler} 
               onClickFileHandler={onClickFileHandler}
               onClickGifHandler={onClickGifHandler}
