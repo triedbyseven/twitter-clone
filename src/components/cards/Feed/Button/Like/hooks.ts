@@ -1,8 +1,11 @@
 import { useCallback, useState } from 'react';
 import { LikeState, UseLikeHook } from './interface';
-import { httpGetCountRequest, httpPostDecrementCountRequest, httpPostIncrementCountRequest } from './utils';
+import { API } from '../../../../../utils/api';
+import { useParams } from 'react-router-dom';
+import { RouterParams } from '../../../../screens/Detail/interfaces';
 
-const useLikeHook = (): UseLikeHook => {
+const useLikeHook = (tweetID: string): UseLikeHook => {
+  const params = useParams<RouterParams>();
   const [state, setState] = useState<LikeState>({
     counter: 0,
     isLiked: false
@@ -10,16 +13,15 @@ const useLikeHook = (): UseLikeHook => {
 
   const onClickHandler = async (event: React.MouseEvent<HTMLElement>): Promise<void> => {
     event.preventDefault();
-
     const countering = (isLiked: boolean, counter: number): number => !isLiked ? counter + 1 : counter - 1;
 
-    setState(prevState => ({
-      counter: countering(prevState.isLiked, prevState.counter),
-      isLiked: !prevState.isLiked
-    }));
-
     try {
-      const response = !state.isLiked ? await httpPostIncrementCountRequest() : await httpPostDecrementCountRequest();
+      !state.isLiked ? await API().like(params.id || "") : await API().unlike(params.id || "");
+
+      setState(prevState => ({
+        counter: countering(prevState.isLiked, prevState.counter),
+        isLiked: !prevState.isLiked
+      }));
     } catch (error) {
       console.error('Error has been detected. Reverting state.. ', error);
       setState(prevState => ({
@@ -30,9 +32,9 @@ const useLikeHook = (): UseLikeHook => {
   };
 
   const componentDidMountHandler = useCallback(async () => {
-    const response = await httpGetCountRequest();
+    const likes = await API().fetchLikes(params.id || tweetID);
 
-    setState({ counter: response.data.likeCounter, isLiked: false });
+    setState({ counter: likes, isLiked: false });
   }, []);
 
   return {

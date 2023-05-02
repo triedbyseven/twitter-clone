@@ -5,8 +5,8 @@ import { LikeProps } from "./interface";
 import './styles.css';
 
 
-const Like: React.FC<LikeProps> = (): React.ReactElement | null => {
-  const { state, onClickHandler, componentDidMountHandler } = useLikeHook();
+const Like: React.FC<LikeProps> = (props): React.ReactElement | null => {
+  const { state, onClickHandler, componentDidMountHandler } = useLikeHook(props.tweetID);
 
   useEffect(() => {
     componentDidMountHandler();
