@@ -1,20 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import { RegisterProps } from './interfaces';
-import { AuthenticatedContext } from '../../../contexts/Authenticated/index';
+import Forms from '../../forms';
+import useWindowSize from '../../../hooks/useWindowsDimensions';
+import './styles.css';
 
-const Register: React.FC<RegisterProps> = (): React.ReactElement => {
-  const [state, setState] = useState<string>('');
-  const { state: authenticatedState, dispatch } = useContext(AuthenticatedContext);
+const Register: React.FC<RegisterProps> = (): React.ReactElement | null => {
+  const windowSize = useWindowSize(true);
 
-  const onSubmit = (): void => {
-    dispatch({ type: 'Register' });
-  };
+  if (!windowSize.height) return null;
 
   return (
-    <div>
-      <h1>Register {authenticatedState.isLoggedIn ? 'true' : 'false'}</h1>
-      <input type='text' value={state} />
-      <button onClick={onSubmit}>Register</button>
+    <div className='screen-register-form' style={{ height: windowSize.height }}>
+      <Forms.Register />
     </div>
   );
 };
