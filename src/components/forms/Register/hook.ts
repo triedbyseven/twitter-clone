@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { RegisterState } from "../../screens/Register/interfaces";
+import { RegisterFormState } from "./interfaces";
 
 interface useRegisterScreenHookResponse {
   onChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  state: RegisterState;
+  state: RegisterFormState;
 };
 
 const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
-  const [state, setState] = useState<RegisterState>({
+  const [state, setState] = useState<RegisterFormState>({
     firstName: '',
     lastName: '',
     phone: '',
-    email: ''
+    email: '',
+    password: ''
   });
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {

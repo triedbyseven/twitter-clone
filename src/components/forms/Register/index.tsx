@@ -21,6 +21,7 @@ const Register: React.FC<RegisterFormProps> = (): React.ReactElement => {
         <input type='text' name='lastName' placeholder='Last Name' onChange={utils.onChangeHandler} value={utils.state.lastName} className='form-register-input' />
         <input type='text' name='phone' placeholder='Phone' onChange={utils.onChangeHandler} value={utils.state.phone} className='form-register-input' />
         <input type='text' name='email' placeholder='Email' onChange={utils.onChangeHandler} value={utils.state.email} className='form-register-input' />
+        <input type='text' name='password' placeholder='Password' onChange={utils.onChangeHandler} value={utils.state.password} className='form-register-input' />
       </div>
       <div className='form-register-button'>
         <Buttons.Large label='Register' onClick={() => console.log('Form data: ', utils.state)} disabled={true} />
