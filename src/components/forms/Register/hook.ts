@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { RegisterFormState } from "./interfaces";
+import axios from "axios";
+import { v4 as uuid } from 'uuid';
 
 interface useRegisterScreenHookResponse {
   onChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmitHandler: () => Promise<void>;
+  isFormDisabled: (state: any) => boolean;
   state: RegisterFormState;
 };
 
@@ -12,6 +16,7 @@ const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
     lastName: '',
     phone: '',
     email: '',
+    username: '',
     password: ''
   });
 
@@ -24,8 +29,34 @@ const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
     }));    
   };
 
+  const onSubmitHandler = async (): Promise<void> => {
+    console.log('state: ', state);
+
+    await axios.post('http://localhost:3001/addUser', {
+      id: uuid(),
+      ...state
+    });
+
+    console.log("User added!");
+  };
+
+  const isFormDisabled = (state: any): boolean => {
+    if (
+      state.firstName && 
+      state.lastName && 
+      state.phone && 
+      state.email && 
+      state.username && 
+      state.password
+    ) return false;
+
+    return true;
+  };
+
   return {
     onChangeHandler: onChangeHandler,
+    onSubmitHandler: onSubmitHandler,
+    isFormDisabled: isFormDisabled,
     state: state
   };
 };
