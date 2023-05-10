@@ -36,6 +36,7 @@ interface APIResponse {
   fetchLikes: (id: string) => Promise<number>;
   like: (id: string) => Promise<void>;
   unlike: (id: string) => Promise<void>;
+  addUser: (user: AxiosPostAddUserParams) => Promise<any>;
 };
 
 interface AxiosGetFetchTweetsResponse {
@@ -90,6 +91,31 @@ interface AxiosPostLikeParams {
   id: string; 
 };
 
+type AxiosPostAddUserResponse = AxiosPostAddUserSuccess | AxiosPostAddUserError;
+
+interface AxiosPostAddUserSuccess {
+  data: {
+    message: string;
+  };
+};
+
+interface AxiosPostAddUserError {
+  data: {
+    error: {
+      message: string;
+    };
+  };
+};
+
+interface AxiosPostAddUserParams {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  username: string;
+  password: string;
+};
+
 const API = (): APIResponse => {
   const fetchTweets = async (): Promise<Tweet[]> => {
     const response = await axios.get<any, AxiosGetFetchTweetsResponse, any>('http://localhost:3001/fetchTweets');
@@ -134,13 +160,20 @@ const API = (): APIResponse => {
     await axios.post<any, any, AxiosPostLikeParams>('http://localhost:3001/unlike', { id: id });
   };
 
+  const addUser = async (user: AxiosPostAddUserParams): Promise<any> => {
+    const response = await axios.post<any, AxiosPostAddUserResponse, AxiosPostAddUserParams>('http://localhost:3001/addUser', user);
+
+    return response;
+  };
+
   return {
     fetchTweets: fetchTweets,
     fetchTweetById: fetchTweetById,
     addReply: addReply,
     fetchLikes: fetchLikes,
     like: like,
-    unlike: unlike
+    unlike: unlike,
+    addUser: addUser
   };
 };
 

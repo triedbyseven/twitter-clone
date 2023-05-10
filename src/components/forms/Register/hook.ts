@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RegisterFormState } from "./interfaces";
 import axios from "axios";
 import { v4 as uuid } from 'uuid';
+import { API } from "../../../utils/api";
 
 interface useRegisterScreenHookResponse {
   onChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -30,14 +31,17 @@ const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
   };
 
   const onSubmitHandler = async (): Promise<void> => {
-    console.log('state: ', state);
-
-    await axios.post('http://localhost:3001/addUser', {
-      id: uuid(),
-      ...state
-    });
-
-    console.log("User added!");
+    try {
+      const user = {
+        id: uuid(),
+        ...state
+      };
+  
+      const response = await API().addUser(user);
+      if (response.data.error) throw new Error(response.data.error.message);
+    } catch (error) {
+      console.log('Error: ', error);
+    };
   };
 
   const isFormDisabled = (state: any): boolean => {
