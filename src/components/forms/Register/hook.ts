@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { RegisterFormState } from "./interfaces";
-import axios from "axios";
-import { v4 as uuid } from 'uuid';
 import { API } from "../../../utils/api";
+import { Sanitize, Validate } from "./validate";
+import Utils from "./utils";
 
 interface useRegisterScreenHookResponse {
   onChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -12,45 +12,48 @@ interface useRegisterScreenHookResponse {
 };
 
 const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
+  const validate = Validate();
+  const utils = Utils();
   const [state, setState] = useState<RegisterFormState>({
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
-    username: '',
-    password: ''
+    firstName: "",
+    lastName: "",
+    phone: "",
+    email: "",
+    username: "",
+    password: "",
+    errorMessage: "" 
   });
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.name;
-    const value = event.target.value;
+    const key = event.target.name;
+    const value = Sanitize()[key](event.target.value);
     setState(prevState => ({
       ...prevState,
-      [name]: value
-    }));    
+      [key]: value
+    }));
   };
 
   const onSubmitHandler = async (): Promise<void> => {
     try {
-      const user = {
-        id: uuid(),
-        ...state
-      };
-  
+      const user = utils.createUserEntity(state);
+
+      validate.validateUser(user);
+      
       const response = await API().addUser(user);
       if (response.data.error) throw new Error(response.data.error.message);
-    } catch (error) {
+    } catch (error: any) {
       console.log('Error: ', error);
+      setState(prevState => ({ ...prevState, errorMessage: error.message })); 
     };
   };
 
   const isFormDisabled = (state: any): boolean => {
     if (
-      state.firstName && 
-      state.lastName && 
-      state.phone && 
-      state.email && 
-      state.username && 
+      state.firstName &&
+      state.lastName &&
+      state.phone &&
+      state.email &&
+      state.username &&
       state.password
     ) return false;
 
