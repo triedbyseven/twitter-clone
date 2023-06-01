@@ -39,7 +39,7 @@ const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
 
       validate.validateUser(user);
       
-      const response = await API().addUser(user);
+      const response = await API().register(user);
       if (response.data.error) throw new Error(response.data.error.message);
     } catch (error: any) {
       console.log('Error: ', error);

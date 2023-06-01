@@ -36,7 +36,7 @@ interface APIResponse {
   fetchLikes: (id: string) => Promise<number>;
   like: (id: string) => Promise<void>;
   unlike: (id: string) => Promise<void>;
-  addUser: (user: AxiosPostAddUserParams) => Promise<any>;
+  register: (user: AxiosPostRegisterParams) => Promise<any>;
 };
 
 interface AxiosGetFetchTweetsResponse {
@@ -91,15 +91,15 @@ interface AxiosPostLikeParams {
   id: string; 
 };
 
-type AxiosPostAddUserResponse = AxiosPostAddUserSuccess | AxiosPostAddUserError;
+type AxiosPostRegisterResponse = AxiosPostRegisterSuccess | AxiosPostRegisterError;
 
-interface AxiosPostAddUserSuccess {
+interface AxiosPostRegisterSuccess {
   data: {
     message: string;
   };
 };
 
-interface AxiosPostAddUserError {
+interface AxiosPostRegisterError {
   data: {
     error: {
       message: string;
@@ -107,7 +107,7 @@ interface AxiosPostAddUserError {
   };
 };
 
-interface AxiosPostAddUserParams {
+interface AxiosPostRegisterParams {
   firstName: string;
   lastName: string;
   email: string;
@@ -160,8 +160,8 @@ const API = (): APIResponse => {
     await axios.post<any, any, AxiosPostLikeParams>('http://localhost:3001/unlike', { id: id });
   };
 
-  const addUser = async (user: AxiosPostAddUserParams): Promise<any> => {
-    const response = await axios.post<any, AxiosPostAddUserResponse, AxiosPostAddUserParams>('http://localhost:3001/addUser', user);
+  const register = async (user: AxiosPostRegisterParams): Promise<any> => {
+    const response = await axios.post<any, AxiosPostRegisterResponse, AxiosPostRegisterParams>('http://localhost:3001/register', user);
 
     return response;
   };
@@ -173,7 +173,7 @@ const API = (): APIResponse => {
     fetchLikes: fetchLikes,
     like: like,
     unlike: unlike,
-    addUser: addUser
+    register: register 
   };
 };
 
