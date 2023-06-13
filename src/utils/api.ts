@@ -37,6 +37,7 @@ interface APIResponse {
   like: (id: string) => Promise<void>;
   unlike: (id: string) => Promise<void>;
   register: (user: AxiosPostRegisterParams) => Promise<any>;
+  login: (user: AxiosPostLoginParams) => Promise<any>;
 };
 
 interface AxiosGetFetchTweetsResponse {
@@ -116,6 +117,27 @@ interface AxiosPostRegisterParams {
   password: string;
 };
 
+type AxiosPostLoginResponse = AxiosPostLoginSuccess | AxiosPostLoginError;
+
+interface AxiosPostLoginSuccess {
+  data: {
+    message: string;
+  };
+};
+
+interface AxiosPostLoginError {
+  data: {
+    error: {
+      message: string;
+    };
+  };
+};
+
+interface AxiosPostLoginParams {
+  username: string;
+  password: string;
+};
+
 const API = (): APIResponse => {
   const fetchTweets = async (): Promise<Tweet[]> => {
     const response = await axios.get<any, AxiosGetFetchTweetsResponse, any>('http://localhost:3001/fetchTweets');
@@ -161,7 +183,13 @@ const API = (): APIResponse => {
   };
 
   const register = async (user: AxiosPostRegisterParams): Promise<any> => {
-    const response = await axios.post<any, AxiosPostRegisterResponse, AxiosPostRegisterParams>('http://localhost:3001/register', user);
+    const response = await axios.post<any, AxiosPostRegisterResponse, AxiosPostRegisterParams>('http://localhost:3001/api/auth/register', user);
+
+    return response;
+  };
+
+  const login = async (user: AxiosPostLoginParams): Promise<any> => {
+    const response = await axios.post<any, AxiosPostLoginResponse, AxiosPostLoginParams>('http://localhost:3001/api/auth/login', user);
 
     return response;
   };
@@ -173,7 +201,8 @@ const API = (): APIResponse => {
     fetchLikes: fetchLikes,
     like: like,
     unlike: unlike,
-    register: register 
+    register: register,
+    login: login
   };
 };
 

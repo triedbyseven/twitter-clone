@@ -1,20 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { LoginProps } from './interfaces';
 import { AuthenticatedContext } from '../../../contexts/Authenticated/index';
+import Forms from '../../forms';
+import useWindowSize from '../../../hooks/useWindowsDimensions';
+import "./styles.css";
 
 const Login: React.FC<LoginProps> = (): React.ReactElement => {
   const [state, setState] = useState<string>('');
-  const { state: authenticatedState, dispatch } = useContext(AuthenticatedContext);
-
-  const onSubmit = (): void => {
-    dispatch({ type: 'LOGIN' });
-  };
+  const windowsSize = useWindowSize(true);
 
   return (
-    <div>
-      <h1>Login {authenticatedState.isLoggedIn ? 'true' : 'false'}</h1>
-      <input type='text' value={state} />
-      <button onClick={onSubmit}>Login</button>
+    <div className="screen-login-form" style={{ height: windowsSize.height }}>
+      <Forms.Login />
     </div>
   );
 };

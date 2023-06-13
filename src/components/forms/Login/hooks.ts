@@ -1,29 +1,25 @@
 import { useContext, useState } from "react";
-import { RegisterFormState } from "./interfaces";
-import { API } from "../../../utils/api";
+import { LoginStateFormProps } from "./interfaces";
 import { Sanitize, Validate } from "./validate";
 import Utils from "./utils";
+import { API } from "../../../utils/api";
 import { AuthenticatedContext } from "../../../contexts/Authenticated";
 
-interface useRegisterScreenHookResponse {
+interface UseLoginScreenHookResponse {
   onChangeHandler: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmitHandler: () => Promise<void>;
   isFormDisabled: (state: any) => boolean;
-  state: RegisterFormState;
+  state: LoginStateFormProps;
 };
 
-const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
+const useLoginScreenHook = (): UseLoginScreenHookResponse => {
   const { state: authenticatedState, dispatch } = useContext(AuthenticatedContext);
-  const validate = Validate();
+  const validate = Validate(); 
   const utils = Utils();
-  const [state, setState] = useState<RegisterFormState>({
-    firstName: "",
-    lastName: "",
-    phone: "",
-    email: "",
+  const [state, setState] = useState<LoginStateFormProps>({
     username: "",
     password: "",
-    errorMessage: "" 
+    errorMessage: ""
   });
 
   const onChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,23 +36,19 @@ const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
       const user = utils.createUserEntity(state);
 
       validate.validateUser(user);
-      
-      const response = await API().register(user);
+
+      const response = await API().login(user);
       if (response.data.error) throw new Error(response.data.error.message);
 
       dispatch({ type: "LOGIN" });
     } catch (error: any) {
       console.log('Error: ', error);
-      setState(prevState => ({ ...prevState, errorMessage: error.message })); 
+      setState(prevState => ({ ...prevState, errorMessage: error.message }));
     };
   };
 
   const isFormDisabled = (state: any): boolean => {
     if (
-      state.firstName &&
-      state.lastName &&
-      state.phone &&
-      state.email &&
       state.username &&
       state.password
     ) return false;
@@ -72,4 +64,4 @@ const useRegisterScreenHook = (): useRegisterScreenHookResponse => {
   };
 };
 
-export default useRegisterScreenHook;
+export default useLoginScreenHook;

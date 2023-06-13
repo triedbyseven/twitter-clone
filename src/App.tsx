@@ -35,7 +35,7 @@ const App = (): React.ReactElement => {
     <Providers.Authenticated>
       <Public>
         <Screens.Login />
-        </Public>
+      </Public>
     </Providers.Authenticated>
   );
 
